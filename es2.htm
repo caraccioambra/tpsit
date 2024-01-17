@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generatore di contatore e tabellina del 5</title>
+</head>
+<body>
+
+<h1>Contatore e Tabellina</h1>
+
+<p id="contatore"></p>
+<p id="tabellina"></p>
+
+<script>
+    var count = 1;
+
+    function startCounter() {
+        var counterElement = document.getElementById("contatore");
+        var tabellinaElement = document.getElementById("tabellina");
+
+        var interval = setInterval(function () {
+            counterElement.innerText = "Contatore: " + count;
+
+            if (count === 5) {
+                clearInterval(interval);
+                stampaTabellina();
+            } else {
+                count++;
+            }
+        }, 1000);
+    }
+
+    function stampaTabellina() {
+        var tabellinaElement = document.getElementById("tabellina");
+        var tabellinaString = "Tabellina del " + count + ":\n";
+
+        for (var i = 1; i <= 10; i++) {
+            tabellinaString += count * i + "<br>";
+        }
+
+        tabellinaElement.innerHTML = tabellinaString;
+    }
+
+    startCounter();
+</script>
+
+</body>
+</html>

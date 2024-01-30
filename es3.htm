@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Replit</title>
+  <style>
+    .square {
+      width: 10px;
+      height: 10px;
+      display: inline-block;
+      margin: 2px;
+    }
+  </style>
+</head>
+<body>
+  <div id="container"></div>
+  <script>
+    for (let i = 1; i <= 100; i++) {
+      let square = document.createElement('div');
+      square.className = 'square';
+      if (i % 2 === 0) {
+        square.style.backgroundColor = 'lightgrey';
+        square.style.border = '1px solid black';
+      } else {
+        square.style.backgroundColor = 'darkgrey';
+      }
+      document.getElementById('container').appendChild(square);
+      if (i % 10 === 0) {
+        document.getElementById('container').appendChild(document.createElement('br'));
+      }
+    }
+  </script>
+
+  /*Il file HTML crea una pagina web con un div contenitore. All'interno del tag script, utilizza un ciclo per creare 100 elementi div con la classe "square". Se il numero è pari, imposta il colore di sfondo su grigio chiaro e aggiunge un bordo nero. Se il numero è dispari, imposta il colore di sfondo su grigio scuro. I quadrati vengono aggiunti al div contenitore e ogni decimo quadrato è seguito da un'interruzione di linea.*/
+  
+</body>
+</html>

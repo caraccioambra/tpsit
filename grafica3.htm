@@ -11,42 +11,52 @@
             display: inline-block;
             margin: 2px;
         }
+        .light-grey{
+            background-color: #f2f2f2;
+        }
+        .dark-grey{
+            background-color: #c7c7c7;
+        }
+        .black-border{
+            border: 1px solid #000;
+        }
     </style>
 </head>
 <body>
-    <div id="container"></div>
-    <div>
-        <img id="pizza" src="pizza.png" width="30" height="30" style="display: none">
-        <img id="bomb" src="bomba.jpg" width="30" height="30" style="display: none">
-    </div>
+    <table>
+        <tbody id="container"></tbody>
+    </table>
     <p>Pizza count: <span id="pizzaCount">0</span></p>
     <p>Bomb count: <span id="bombCount">0</span></p>
     <script>
         let pizzaCounter = 0;
         let bombCounter = 0;
-
         for (let i = 1; i <= 100; i++) {
-            let square = document.createElement('div');
+            let square = document.createElement('td');
             square.className = 'square';
-            let img = document.createElement('img');
             if (i % 2 === 0) {
-                img.src = 'bomb.png';
-                img.addEventListener('click', function() {
+                square.classList.add('light-grey');
+            } else {
+                square.classList.add('dark-grey');
+            }
+            if (i % 10 === 0) {
+                let br = document.createElement('br');
+                document.getElementById('container').appendChild(br);
+                continue;
+            }
+            let img = document.createElement('img');
+            img.src = i % 2 === 0 ? 'bombaaa.jpg' : 'pizzaaa.png';
+            img.addEventListener('click', function() {
+                if (i % 2 === 0) {
                     bombCounter++;
                     document.getElementById('bombCount').textContent = bombCounter;
-                });
-            } else {
-                img.src = 'pizza.png';
-                img.addEventListener('click', function() {
+                } else {
                     pizzaCounter++;
                     document.getElementById('pizzaCount').textContent = pizzaCounter;
-                });
-            }
+                }
+            });
             square.appendChild(img);
             document.getElementById('container').appendChild(square);
-            if (i % 10 === 0) {
-                document.getElementById('container').appendChild(document.createElement('br'));
-            }
         }
     </script>
 </body>

@@ -6,16 +6,35 @@
   <title>Conversione Voti</title>
 </head>
 <body>
+  <input type="number" id="voto1">
+  <br>
+  <input type="number" id="voto2">
+  <br>
+  <input type="number" id="voto3">
+  <br>
+  <input type="number" id="voto4">
+  <br>
+  <input type="number" id="voto5">
+  <br>
+  <button onclick="calcolaVoti()">Calcola</button>
   <p id="voti-output"></p>
   <script>
-    const voti = [6, 8, 7, 9, 5];
-    function convertiInTrentesimi(voto) {
-      return voto * 3.33;
+    function calcolaVoti() {
+      const voto1 = parseInt(document.getElementById('voto1').value);
+      const voto2 = parseInt(document.getElementById('voto2').value);
+      const voto3 = parseInt(document.getElementById('voto3').value);
+      const voto4 = parseInt(document.getElementById('voto4').value);
+      const voto5 = parseInt(document.getElementById('voto5').value);
+      const voti = [voto1, voto2, voto3, voto4, voto5];
+      function convertiInTrentesimi(voto) {
+        return voto * 3.33;
+      }
+      function trovaVotoMinimo() {
+        return Math.min(...voti);
+      }
+      document.getElementById('voti-output').innerText = `Voti: ${voti.join(', ')}\nVoto minimo: ${trovaVotoMinimo()}`;
     }
-    function trovaVotoMinimo() {
-      return Math.min(...voti);
-    }
-    document.getElementById('voti-output').innerText = `Voti: ${voti.join(', ')}\nVoto minimo: ${trovaVotoMinimo()}`;
   </script>
 </body>
 </html>
+

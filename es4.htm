@@ -1,0 +1,40 @@
+<!--creare un programma che esegue un ciclo da 1 a 100
+quando il numero è pari stampi un quadrato 10x10 con bordo nero e sfondo grigio chiaro con margin 2px quando il numero è dispari stampi un quadrato 20x 20px accanto a quello di prima con sfondo grigio scuro ogni 10 numeri e quindi 10 quadrati vai a capo Crei una tabella 10 x 10 -->
+
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+  .square {
+    width: 10px;
+    height: 10px;
+    float: left;
+    margin: 2px;
+  }
+  .lightGray {
+    background-color: lightgray;
+  }
+  .darkGray {
+    background-color: darkgray;
+  }
+</style>
+</head>
+<body>
+<div id="container"></div>
+<script>
+  for (let i = 1; i <= 100; i++) {
+    let squareSize = i % 2 === 0 ? 10 : 20;
+    let squareClass = i % 2 === 0 ? 'lightGray' : 'darkGray';
+    let square = document.createElement('div');
+    square.className = `square ${squareClass}`;
+    square.style.width = `${squareSize}px`;
+    square.style.height = `${squareSize}px`;
+    document.getElementById('container').appendChild(square);
+    if (i % 10 === 0) {
+      let lineBreak = document.createElement('br');
+      document.getElementById('container').appendChild(lineBreak);
+    }
+  }
+</script>
+</body>
+</html>

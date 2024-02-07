@@ -4,37 +4,42 @@ quando il numero è pari stampi un quadrato 10x10 con bordo nero e sfondo grigio
 <!DOCTYPE html>
 <html>
 <head>
-<style>
-  .square {
-    width: 10px;
-    height: 10px;
-    float: left;
-    margin: 2px;
-  }
-  .lightGray {
-    background-color: lightgray;
-  }
-  .darkGray {
-    background-color: darkgray;
-  }
-</style>
+	<title>Quadrati</title>
+	<style>
+		.square {
+			width: 10px;
+			height: 10px;
+			margin: 2px;
+		}
+		.light-gray {
+			background-color: #f2f2f2;
+		}
+		.dark-gray {
+			background-color: #c0c0c0;
+		}
+		.black-border {
+			border: 1px solid #000;
+		}
+	</style>
 </head>
 <body>
-<div id="container"></div>
-<script>
-  for (let i = 1; i <= 100; i++) {
-    let squareSize = i % 2 === 0 ? 10 : 20;
-    let squareClass = i % 2 === 0 ? 'lightGray' : 'darkGray';
-    let square = document.createElement('div');
-    square.className = `square ${squareClass}`;
-    square.style.width = `${squareSize}px`;
-    square.style.height = `${squareSize}px`;
-    document.getElementById('container').appendChild(square);
-    if (i % 10 === 0) {
-      let lineBreak = document.createElement('br');
-      document.getElementById('container').appendChild(lineBreak);
-    }
-  }
-</script>
+	<div id="quadrati"></div>
+	<table>
+		<script>
+			for (var i = 1; i <= 100; i++) {
+				var square = document.createElement('div');
+				square.classList.add('square');
+				if (i % 2 === 0) {
+					square.classList.add('light-gray', 'black-border');
+				} else {
+					square.classList.add('dark-gray', 'black-border');
+				}
+				document.getElementById('quadrati').appendChild(square);
+				if (i % 10 === 0) {
+					document.getElementById('quadrati').appendChild(document.createElement('br'));
+				}
+			}
+		</script>
+	</table>
 </body>
 </html>

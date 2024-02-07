@@ -1,0 +1,33 @@
+<!--Calcolare il peso inserito in input considerando le accelerazioni di gravita
+di tutti i pianeti del sistema solare. Suggerimento: inserito il peso come input valido per il nostro pianeta, la funzione restituisce in output il peso
+corrispettivo su tutti i pianeti considerati. Realizzare l'esercizio senza
+l'utilizzo dell'array, dopo la teoria sugli array in javascript
+ricodificare l'esercizio utilizzando un array che contiene le accelerazioni dei pianeti in html con comandi semplici-->
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Calcolatore di peso planetario</title>
+</head>
+<body>
+  <h1>Calcolatore di peso planetario</h1>
+  <label for="peso">Inserisci il tuo peso in kg:</label>
+  <input type="number" id="peso">
+  <button onclick="calcolaPeso()">Calcola</button>
+  <p>Peso su Mercurio: <span id="pesoMercurio"></span> kg</p>
+  <p>Peso su Venere: <span id="pesoVenus"></span> kg</p>
+
+  <script>
+    function calcolaPeso() {
+      const pesoTerrestre = document.getElementById('peso').value;
+      const pesoMercurio = pesoTerrestre * 0.378;
+      const pesoVenus = pesoTerrestre * 0.907;
+   
+
+      document.getElementById('pesoMercurio').textContent = pesoMercurio;
+      document.getElementById('pesoVenus').textContent = pesoVenus;
+  
+    }
+  </script>
+</body>
+</html>

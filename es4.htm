@@ -2,44 +2,53 @@
 quando il numero è pari stampi un quadrato 10x10 con bordo nero e sfondo grigio chiaro con margin 2px quando il numero è dispari stampi un quadrato 20x 20px accanto a quello di prima con sfondo grigio scuro ogni 10 numeri e quindi 10 quadrati vai a capo Crei una tabella 10 x 10 -->
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-	<title>Quadrati</title>
-	<style>
-		.square {
-			width: 10px;
-			height: 10px;
-			margin: 2px;
-		}
-		.light-gray {
-			background-color: #f2f2f2;
-		}
-		.dark-gray {
-			background-color: #c0c0c0;
-		}
-		.black-border {
-			border: 1px solid #000;
-		}
-	</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voto Conversion</title>
+    <style>
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(10, 20px);
+            grid-template-rows: repeat(10, 20px);
+            gap: 2px;
+        }
+        .square {
+            width: 20px;
+            height: 20px;
+            border: 1px solid black;
+        }
+        .light-gray {
+            background-color: lightgray;
+        }
+        .dark-gray {
+            background-color: darkgray;
+        }
+    </style>
 </head>
 <body>
-	<div id="quadrati"></div>
-	<table>
-		<script>
-			for (var i = 1; i <= 100; i++) {
-				var square = document.createElement('div');
-				square.classList.add('square');
-				if (i % 2 === 0) {
-					square.classList.add('light-gray', 'black-border');
-				} else {
-					square.classList.add('dark-gray', 'black-border');
-				}
-				document.getElementById('quadrati').appendChild(square);
-				if (i % 10 === 0) {
-					document.getElementById('quadrati').appendChild(document.createElement('br'));
-				}
-			}
-		</script>
-	</table>
+    <h1>Quadrato</h1>
+    <div id="result" class="grid"></div>
+
+    <script>
+        function createGrid() {
+            const grid = document.getElementById('result');
+            for (let i = 1; i <= 100; i++) {
+                const square = document.createElement('div');
+                square.classList.add('square');
+                if (i % 2 === 0) {
+                    square.classList.add('light-gray');
+                } else {
+                    square.classList.add('dark-gray');
+                }
+                if (i % 10 === 0) {
+                    grid.appendChild(document.createElement('br'));
+                }
+                grid.appendChild(square);
+            }
+        }
+        createGrid();
+    </script>
 </body>
 </html>

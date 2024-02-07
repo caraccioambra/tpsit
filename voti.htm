@@ -1,0 +1,21 @@
+<!--Realizzare un programma che converte un voto in decimi in uno voto in trentesimi. inseriti 5 voti creare una funzione che si chiama minimo che restituisce il voto più basso con htm con comandi semplici-->
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Conversione Voti</title>
+</head>
+<body>
+  <p id="voti-output"></p>
+  <script>
+    const voti = [6, 8, 7, 9, 5];
+    function convertiInTrentesimi(voto) {
+      return voto * 3.33;
+    }
+    function trovaVotoMinimo() {
+      return Math.min(...voti);
+    }
+    document.getElementById('voti-output').innerText = `Voti: ${voti.join(', ')}\nVoto minimo: ${trovaVotoMinimo()}`;
+  </script>
+</body>
+</html>

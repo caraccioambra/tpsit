@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contatore con cambio di colore</title>
+<style>
+  #counter {
+    width: 200px;
+    height: 200px;
+    background-color: #ccc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 36px;
+    font-weight: bold;
+    color: white;
+    transition: background-color 0.5s ease;
+  }
+</style>
+</head>
+<body>
+
+<div id="counter">0</div>
+
+<script>
+  var counter = document.getElementById("counter");
+  var count = 0;
+
+  function incrementCounter() {
+    count++;
+    counter.textContent = count;
+    if (count % 10 === 0) {
+      changeColor();
+    }
+  }
+
+  function changeColor() {
+    // Estrai i valori r, g, b dalla base del colore corrente
+    var baseColor = counter.style.backgroundColor;
+    var rgbValues = baseColor.match(/\d+/g);
+    var r = parseInt(rgbValues[0]);
+    var g = parseInt(rgbValues[1]);
+    var b = parseInt(rgbValues[2]);
+    
+    // Incrementa ogni componente del colore di un valore arbitrario
+    r = (r + 20) % 256;
+    g = (g + 30) % 256;
+    b = (b + 10) % 256;
+
+    // Converti i valori r, g, b in formato hex
+    var newColor = "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+
+    counter.style.backgroundColor = newColor;
+  }
+
+  function componentToHex(c) {
+    var hex = c.toString(16);
+    return hex.length == 1 ? "0" + hex : hex;
+  }
+
+  // Avvio del contatore
+  setInterval(incrementCounter, 500);
+</script>
+
+</body>
+</html>

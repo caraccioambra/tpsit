@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calcolo IMC</title>
+</head>
+<body>
+    <!-- Scrivi un programma JavaScript che calcoli l'Indice di Massa Corporea (IMC) di una persona. -->
+    <h1>Inserisci il tuo peso</h1>
+    <input type="number" id="peso">
+    <h2>Inserisci la tua altezza</h2>
+    <input type="number" id="altezza">
+
+    <button onclick="calcolaMassa()">Calcola</button>
+
+    <!-- Visualizzazione del risultato -->
+    <p>Indice di Massa Corporea (IMC): <span id="massa"></span></p>
+    <div id="classification"></div>
+
+    <script>
+        function calcolaMassa() {
+            // Recupera i valori di peso e altezza inseriti dall'utente
+            var peso = parseFloat(document.getElementById('peso').value);
+            var altezza = parseFloat(document.getElementById('altezza').value);
+
+            // Calcola l'IMC
+            var massa = peso / (altezza * altezza);
+
+            // Visualizza l'IMC
+            document.getElementById('massa').textContent = massa.toFixed(2);
+
+            // Classificazione del peso
+            var classification = document.getElementById('classification');
+            classification.innerHTML = ""; // Resetta la classificazione ad ogni calcolo
+
+            if (massa < 18.5) {
+                classification.innerHTML = "Sei sottopeso";
+            } else if (massa < 25) {
+                classification.innerHTML = "Sei normopeso";
+            } else if (massa < 30) {
+                classification.innerHTML = "Sei sovrappeso";
+            } else {
+                classification.innerHTML = "Sei obeso";
+            }
+        }
+    </script>
+</body>
+</html>

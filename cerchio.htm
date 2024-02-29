@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3.14*r alla seconda</title>
+    <style>
+        .square {
+            width: 20px;
+            height: 20px;
+            background-color: red; /* Aggiunto per visualizzare i quadrati */
+            margin: 2px; /* Aggiunto per spaziare i quadrati */
+            float: left; /* Aggiunto per allineare i quadrati */
+        }
+    </style>
+</head>
+<body>
+    <h1>Inserisci il raggio</h1>
+
+    <input type="number" id="raggio"> <!-- Richiede un input di tipo numero -->
+    <button onclick="calcolaArea()">Calcola</button> <!-- Dichiarazione della funzione -->
+    <button onclick="creaDiv()">Stampa</button>
+    <div id="container"></div>
+
+    <script>
+        function calcolaArea() {
+            var raggio = document.getElementById('raggio').value;
+            var area = raggio * raggio * 3.14; // Calcola l’area
+            document.getElementById('area').textContent = area;
+        }
+
+        function creaDiv() {
+            var area = parseFloat(document.getElementById('area').textContent);
+
+            if (!isNaN(area)) {
+                var container = document.getElementById('container');
+                container.innerHTML = ''; // Pulisce il contenuto precedente
+
+                for (var i = 0; i < area; i++) { // Ciclo for che stampa i quadrati
+                    var newDiv = document.createElement('div');
+                    newDiv.className = 'square';
+                    container.appendChild(newDiv);
+                }
+            } else {
+                alert("Calcola prima l'area del cerchio.");
+            }
+        }
+    </script>
+</body>
+</html>

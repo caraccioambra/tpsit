@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <p id="demo"></p>
+    <p id="carrello"></p>
+    <button id="bottone-add" onclick="aggiungiDrink()">Aggiungi drink</button>
+    <button id="bottone-remove" onclick="cancellaDrink()">Cancella drink</button>
+    <button id="bottone-count" onclick="contaDrink()">Conta drink</button>
+    <button id="bottone-order" onclick="ordinaDrink()">Ordina drink</button>
+
+    <p>Numero drink nel carrello: </p>
+    <p id="contaDrink"></p>
+
+    <script>
+        const drinks = ["coca", "spritz", "sprite", "fanta", "birra", "belvedere", "martini"];
+        const carrello = [];
+        const ordini = [];
+
+        document.getElementById("demo").innerHTML = drinks.join(", ") + " #drinks: " + drinks.length;
+
+        function contaDrink() {
+            document.getElementById("contaDrink").innerHTML = ordini.length;
+        }
+
+        function aggiungiDrink() {
+            let drink = prompt("Inserisci il tuo drink:");
+            if (drink) {
+                drinks.push(drink);
+                document.getElementById("demo").innerHTML = drinks.join(" ") + " #drinks: " + drinks.length;
+            }
+        }
+
+        function cancellaDrink() {
+            let drink = drinks.pop();
+            document.getElementById("demo").innerHTML = drinks.join(" ") + " #drinks: " + drinks.length;
+        }
+
+        function ordinaDrink() {
+            let drinkDaOrdinare = parseInt(prompt("Inserisci il numero del drink da ordinare (0 - " + (drinks.length - 1) + "):"));
+            if (!isNaN(drinkDaOrdinare) && drinkDaOrdinare >= 0 && drinkDaOrdinare < drinks.length) {
+                let drinkOrdinato = drinks.splice(drinkDaOrdinare, 1)[0];
+                ordini.push(drinkOrdinato);
+                document.getElementById("carrello").innerHTML = "Hai ordinato: " + ordini.join(", ");
+                document.getElementById("demo").innerHTML = drinks.join(" ") + " #drinks: " + drinks.length;
+            } else {
+                alert("Input non valido. Inserisci un numero valido.");
+            }
+        }
+    </script>
+</body>
+</html>

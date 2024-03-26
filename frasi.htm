@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Generatore di Frasi</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+    }
+    button {
+        margin: 5px;
+        padding: 10px;
+        cursor: pointer;
+    }
+</style>
+</head>
+<body>
+    <h1>Generatore di Frasi</h1>
+    <button onclick="aggiungiSoggetto()">Aggiungi Soggetto</button>
+    <button onclick="aggiungiVerbo()">Aggiungi Verbo</button>
+    <button onclick="aggiungiComplemento()">Aggiungi Complemento</button>
+    <div id="output"></div>
+
+    <button onclick="creaFrase()">Crea Frase</button>
+    <button onclick="creaFraseCasuale()">Crea Frase Casuale</button>
+
+    <script>
+        let soggetti = [];
+        let verbi = [];
+        let complementi = [];
+
+        function aggiungiSoggetto() {
+            let soggetto = prompt("Inserisci un soggetto:");
+            soggetti.push(soggetto);
+            aggiornaOutput();
+        }
+
+        function aggiungiVerbo() {
+            let verbo = prompt("Inserisci un verbo:");
+            verbi.push(verbo);
+            aggiornaOutput();
+        }
+
+        function aggiungiComplemento() {
+            let complemento = prompt("Inserisci un complemento:");
+            complementi.push(complemento);
+            aggiornaOutput();
+        }
+
+        function aggiornaOutput() {
+            let outputDiv = document.getElementById("output");
+            outputDiv.innerHTML = "<h2>Soggetti:</h2>" + soggetti.join(", ") +
+                                  "<h2>Verbi:</h2>" + verbi.join(", ") +
+                                  "<h2>Complementi:</h2>" + complementi.join(", ");
+        }
+
+        function creaFrase() {
+            if (soggetti.length === 0 || verbi.length === 0 || complementi.length === 0) {
+                alert("Devi aggiungere almeno un soggetto, un verbo e un complemento!");
+                return;
+            }
+
+            let frase = soggetti[0] + " " + verbi[0] + " " + complementi[0];
+            alert(frase);
+        }
+
+        function creaFraseCasuale() {
+            if (soggetti.length === 0 || verbi.length === 0 || complementi.length === 0) {
+                alert("Devi aggiungere almeno un soggetto, un verbo e un complemento!");
+                return;
+            }
+
+            let soggettoCasuale = soggetti[Math.floor(Math.random() * soggetti.length)];
+            let verboCasuale = verbi[Math.floor(Math.random() * verbi.length)];
+            let complementoCasuale = complementi[Math.floor(Math.random() * complementi.length)];
+
+            let fraseCasuale = soggettoCasuale + " " + verboCasuale + " " + complementoCasuale;
+            alert(fraseCasuale);
+        }
+    </script>
+</body>
+</html>

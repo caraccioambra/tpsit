@@ -17,12 +17,17 @@
             }
 
             let divisori = [];
-            for (let i = 1; i <= n; i++) {
+            for (let i = 2; i <= n; i++) {
                 if (n % i === 0) {
                     divisori.push(i);
                 }
             }
-            document.getElementById("risultatoDivisori").innerHTML = "I divisori di " + n + " sono: " + divisori.join(", ");
+
+            if (divisori.length === 1) {
+                document.getElementById("risultatoDivisori").innerHTML = "Il numero " + n + " ha solo un divisore.";
+            } else {
+                document.getElementById("risultatoDivisori").innerHTML = "I divisori di " + n + " sono: " + divisori.join(", ");
+            }
             return divisori;
         }
 
@@ -30,12 +35,17 @@
             let risultato = "";
             for (let j = 1; j <= 1000; j++) {
                 let divisori = [];
-                for (let i = 1; i <= j; i++) {
+                for (let i = 2; i <= j; i++) {
                     if (j % i === 0) {
                         divisori.push(i);
                     }
                 }
-                risultato += "I divisori di " + j + " sono: " + divisori.join(", ") + "<br>";
+
+                if (divisori.length === 1) {
+                    risultato += "Il numero " + j + " ha solo un divisore.<br>";
+                } else {
+                    risultato += "I divisori di " + j + " sono: " + divisori.join(", ") + "<br>";
+                }
             }
             document.getElementById("risultatoDivisori").innerHTML = risultato;
         }

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Divisori di N</title>
+</head>
+<body>
+    <p>Divisori di N dato in input</p>
+    <button onclick="TrovaDivisori()">Trova divisori di N</button>
+    <div id="risultatoDivisori"></div>
+
+    <script>
+        function TrovaDivisori() {
+            let n = parseInt(prompt("Inserisci l'input intero > 0"));
+            if (isNaN(n) || n <= 0) {
+                alert("Input non valido. Inserisci un numero intero positivo");
+                return;
+            }
+
+            let divisori = [];
+            for (let i = 1; i <= n; i++) {
+                if (n % i === 0) {
+                    divisori.push(i);
+                }
+            }
+            document.getElementById("risultatoDivisori").innerHTML = "I divisori di " + n + " sono: " + divisori.join(", ");
+            return divisori;
+        }
+
+        function TrovaDivisoriDaUnoAMille() {
+            let risultato = "";
+            for (let j = 1; j <= 1000; j++) {
+                let divisori = [];
+                for (let i = 1; i <= j; i++) {
+                    if (j % i === 0) {
+                        divisori.push(i);
+                    }
+                }
+                risultato += "I divisori di " + j + " sono: " + divisori.join(", ") + "<br>";
+            }
+            document.getElementById("risultatoDivisori").innerHTML = risultato;
+        }
+    </script>
+    <button onclick="TrovaDivisoriDaUnoAMille()">Trova divisori da 1 a 1000</button>
+</body>
+</html>

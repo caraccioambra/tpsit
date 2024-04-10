@@ -48,12 +48,31 @@
         <button onclick="stampaNumeriDispari(100)">Numeri Dispari</button>
         <button onclick="stampaNumeriFattori(24)">Fattori di 24</button>
         <button onclick="stampaNumeriFattoriEsclusoUno(24)">Numero di Fattori escluso 1 di 24</button>
+        <p id="counter">0</p>
+        <button onclick="avviaContatore()">Avvia Contatore</button>
+        <button onclick="fermaContatore()">Ferma Contatore</button>
       </main>
       <footer class="mt-auto text-white-50">
         <p>Cover template for <a href="https://getbootstrap.com/" class="text-white">Bootstrap</a>, by <a href="https://twitter.com/mdo" class="text-white">@mdo</a>.</p>
       </footer>
     </div>
-    <script>    
+    <script>
+      let counterInterval;
+
+      function avviaContatore() {
+        counterInterval = setInterval(incrementaContatore, 1000); // Incrementa il contatore ogni secondo (1000 millisecondi)
+      }
+
+      function fermaContatore() {
+        clearInterval(counterInterval); // Ferma il contatore
+      }
+
+      function incrementaContatore() {
+        let counterElement = document.getElementById("counter");
+        let currentCount = parseInt(counterElement.innerText);
+        counterElement.innerText = currentCount + 1;
+      }
+
       function stampaNumeri(numeri) {
         let output = "";
         for(let i = 1; i <= numeri; i++) {

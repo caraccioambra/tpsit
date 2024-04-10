@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Numeri Primi da 1 a 10000</title>
+</head>
+<body>
+    <p>Numeri primi da 1 a 10000</p>
+    <div id="risultatoNumeriPrimi"></div>
+
+    <script>
+        function TrovaNumeriPrimiDaUnoADiecimila() {
+            let risultato = "";
+            for (let numero = 1; numero <= 10000; numero++) {
+                let primo = true;
+                for (let i = 2; i <= Math.sqrt(numero); i++) {
+                    if (numero % i === 0) {
+                        primo = false;
+                        break;
+                    }
+                }
+                if (primo && numero > 1) {
+                    risultato += numero + "<br>";
+                }
+            }
+            document.getElementById("risultatoNumeriPrimi").innerHTML = risultato;
+        }
+    </script>
+    <button onclick="TrovaNumeriPrimiDaUnoADiecimila()">Trova numeri primi da 1 a 10000</button>
+</body>
+</html>

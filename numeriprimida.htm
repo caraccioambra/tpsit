@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Conteggio Numeri Primi</title>
+</head>
+<body>
+    <div id="risultatoConteggio"></div>
+
+    <script>
+        function contaNumeriPrimi(da, a) {
+            let conteggio = 0;
+            for (let numero = da; numero <= a; numero++) {
+                let primo = true;
+                for (let i = 2; i <= Math.sqrt(numero); i++) {
+                    if (numero % i === 0) {
+                        primo = false;
+                        break;
+                    }
+                }
+                if (primo && numero > 1) {
+                    conteggio++;
+                }
+            }
+            return conteggio;
+        }
+
+        function calcolaConteggio() {
+            let conteggioDa1A100 = contaNumeriPrimi(1, 100);
+            let conteggioDa1A200 = contaNumeriPrimi(1, 200);
+            let conteggioDa1A300 = contaNumeriPrimi(1, 300);
+            let conteggioDa1A400 = contaNumeriPrimi(1, 400);
+            document.getElementById("risultatoConteggio").innerHTML = "Da 1 a 100: " + conteggioDa1A100 + " numeri primi.<br>" +
+                                                                         "Da 1 a 200: " + conteggioDa1A200 + " numeri primi.<br>" +
+                                                                         "Da 1 a 300: " + conteggioDa1A300 + " numeri primi.<br>" +
+                                                                         "Da 1 a 400: " + conteggioDa1A400 + " numeri primi.";
+        }
+
+        calcolaConteggio();
+    </script>
+</body>
+</html>

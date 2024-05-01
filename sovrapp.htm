@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Div Sovrapposti</title>
+<style>
+  #contenitore {
+    position: relative;
+    width: 500px;
+    height: 500px;
+    border: 1px solid black;
+  }
+
+  .casella {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    transition: background-color 0.3s ease;
+  }
+
+  .blu {
+    background-color: blue;
+  }
+
+  .giallo {
+    background-color: yellow;
+  }
+
+  .rosso {
+    background-color: red;
+  }
+
+  #bottone {
+    margin-top: 10px;
+  }
+</style>
+</head>
+<body>
+
+<div id="contenitore">
+  <div class="casella blu" id="casellaBlu"></div>
+  <div class="casella giallo" id="casellaGiallo"></div>
+</div>
+
+<button id="bottone">Esegui</button>
+
+<script>
+// Funzione per posizionare casualmente un elemento
+function posizioneCasuale(elemento) {
+  var larghezzaContenitore = document.getElementById("contenitore").offsetWidth - 200;
+  var altezzaContenitore = document.getElementById("contenitore").offsetHeight - 200;
+  var sinistra = Math.floor(Math.random() * larghezzaContenitore);
+  var alto = Math.floor(Math.random() * altezzaContenitore);
+  elemento.style.left = sinistra + "px";
+  elemento.style.top = alto + "px";
+}
+
+// Funzione per controllare se due elementi si sovrappongono
+function controllaSovrapposizione() {
+  var casellaBlu = document.getElementById("casellaBlu");
+  var casellaGiallo = document.getElementById("casellaGiallo");
+  var rectBlu = casellaBlu.getBoundingClientRect();
+  var rectGiallo = casellaGiallo.getBoundingClientRect();
+
+  if (
+    rectBlu.left < rectGiallo.right &&
+    rectBlu.right > rectGiallo.left &&
+    rectBlu.top < rectGiallo.bottom &&
+    rectBlu.bottom > rectGiallo.top
+  ) {
+    casellaBlu.classList.add("rosso");
+    casellaGiallo.classList.add("rosso");
+  } else {
+    casellaBlu.classList.remove("rosso");
+    casellaGiallo.classList.remove("rosso");
+  }
+}
+
+var casellaBlu = document.getElementById("casellaBlu");
+var casellaGiallo = document.getElementById("casellaGiallo");
+
+posizioneCasuale(casellaBlu);
+posizioneCasuale(casellaGiallo);
+controllaSovrapposizione();
+
+document.getElementById("bottone").addEventListener("click", function() {
+  posizioneCasuale(casellaBlu);
+  posizioneCasuale(casellaGiallo);
+  controllaSovrapposizione();
+});
+</script>
+
+</body>
+</html>

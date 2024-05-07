@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas Quadrati Numerici</title>
+    <style>
+        canvas {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="myCanvas" width="500" height="500"></canvas>
+
+    <script>
+        // Inizializzazione del canvas
+        var canvas = document.getElementById('myCanvas');
+        var ctx = canvas.getContext('2d');
+
+        // Funzione per disegnare un quadrato con colore e testo
+        function drawSquare(x, y, size, color, text) {
+            ctx.fillStyle = color;
+            ctx.fillRect(x, y, size, size);
+            ctx.strokeRect(x, y, size, size);
+            ctx.fillStyle = 'black';
+            ctx.font = '10px Arial';
+            ctx.fillText(text, x + size / 2 - 5, y + size / 2 + 5);
+        }
+
+        // Array per memorizzare i numeri casuali
+        var numeriCasuali = [];
+
+        // Generazione di 100 numeri casuali e inserimento nell'array
+        for (var i = 0; i < 100; i++) {
+            numeriCasuali.push(Math.floor(Math.random() * 100));
+        }
+
+        // Coordinata iniziale del primo quadrato
+        var startX = 20;
+        var startY = 20;
+        var squareSize = 30;
+        var spacing = 5;
+
+        // Iterazione su tutti i numeri casuali e disegno dei quadrati
+        var x = startX;
+        var y = startY;
+        for (var i = 0; i < numeriCasuali.length; i++) {
+            var numeroCasuale = numeriCasuali[i];
+            var coloreQuadrato = '';
+
+            // Discriminazione dei numeri casuali in base alla categoria
+            if (numeroCasuale % 4 === 0) {
+                coloreQuadrato = 'rgb(245, 209, 215)'; // Rosa
+            } else if (numeroCasuale % 3 === 0) {
+                coloreQuadrato = 'rgb(51, 152, 246)'; // Blu
+            } else if (numeroCasuale % 2 === 0) {
+                coloreQuadrato = 'rgb(144, 238, 144)'; // Verde
+            } else {
+                coloreQuadrato = 'rgb(255, 255, 102)'; // Giallo
+            }
+
+            // Disegno del quadrato sul canvas
+            drawSquare(x, y, squareSize, coloreQuadrato, numeroCasuale);
+
+            // Aggiornamento delle coordinate per il prossimo quadrato
+            x += squareSize + spacing;
+            if (x > canvas.width - squareSize) {
+                x = startX;
+                y += squareSize + spacing;
+            }
+        }
+    </script>
+</body>
+</html>

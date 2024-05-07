@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <style>
+        .quadratoPink{
+            background-color: rgb(245, 209, 215);
+            height: 20px;
+            width: 20px;
+            border: 1px solid black;
+            margin:5px;
+            padding:5px;
+        }
+        .quadratoBlue {
+            background-color: rgb(51, 152, 246);
+            height: 20px;
+            width: 20px;
+            border: 1px solid black;
+            margin:5px;
+            padding:5px;
+        }
+        .quadratoGreen {
+            background-color: rgb(144, 238, 144);
+            height: 20px;
+            width: 20px;
+            border: 1px solid black;
+            margin:5px;
+            padding:5px;
+        }
+        .quadratoYellow {
+            background-color: rgb(255, 255, 102);
+            height: 20px;
+            width: 20px;
+            border: 1px solid black;
+            margin:5px;
+            padding:5px;
+        }
+    </style>
+</head>
+<body>
+    <script>
+        let numeriCasuali = []; // Creo un array per memorizzare i numeri casuali
+
+        // Genero 100 numeri casuali e li inserisco nell'array
+        for (let i = 0; i < 100; i++) {
+            numeriCasuali.push(Math.floor(Math.random() * 100));
+        }
+
+        // Itero sull'array dei numeri casuali e creo i div corrispondenti
+        for (let i = 0; i < numeriCasuali.length; i++) {
+            let numeroCasuale = numeriCasuali[i];
+            let classeQuadrato = ''; // Inizializzo la classe del quadrato
+
+            // Discrimino i numeri casuali in base alla loro categoria
+            if (numeroCasuale % 4 === 0) {
+                classeQuadrato = 'quadratoPink'; // Numero divisibile per 4, sfondo rosa
+            } else if (numeroCasuale % 3 === 0) {
+                classeQuadrato = 'quadratoBlue'; // Numero divisibile per 3, sfondo blu
+            } else if (numeroCasuale % 2 === 0) {
+                classeQuadrato = 'quadratoGreen'; // Numero divisibile per 2, sfondo verde
+            } else {
+                classeQuadrato = 'quadratoYellow'; // Numero dispari, sfondo giallo
+            }
+
+            // Creo il div con il colore appropriato e il numero casuale al suo interno
+            document.write('<div class="' + classeQuadrato + '">' + numeroCasuale + '</div>');
+        }
+    </script>
+</body>
+</html>

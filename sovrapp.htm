@@ -43,8 +43,6 @@
   <div class="casella giallo" id="casellaGiallo"></div>
 </div>
 
-<button id="bottone">Esegui</button>
-
 <script>
 // Funzione per posizionare casualmente un elemento
 function posizioneCasuale(elemento) {
@@ -80,15 +78,12 @@ function controllaSovrapposizione() {
 var casellaBlu = document.getElementById("casellaBlu");
 var casellaGiallo = document.getElementById("casellaGiallo");
 
-posizioneCasuale(casellaBlu);
-posizioneCasuale(casellaGiallo);
-controllaSovrapposizione();
-
-document.getElementById("bottone").addEventListener("click", function() {
+// Esegui la posizione casuale e il controllo di sovrapposizione ogni 2 secondi
+setInterval(function() {
   posizioneCasuale(casellaBlu);
   posizioneCasuale(casellaGiallo);
   controllaSovrapposizione();
-});
+}, 1000); // 2000 millisecondi = 2 secondi
 </script>
 
 </body>

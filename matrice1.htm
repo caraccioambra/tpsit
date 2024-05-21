@@ -6,6 +6,8 @@
   <title>Matrice 8x8</title>
 </head>
 <body>
+  <div id="matrixResult"></div>
+  <div id="sumResult"></div>
   <script>
     // Inizializza una matrice 8x8 vuota
     let matrix = [];
@@ -20,10 +22,10 @@
         }
     }
 
-    // Stampa la matrice in console
-    console.log("Matrice 8x8:");
+    // Costruisce la rappresentazione testuale della matrice
+    let matrixText = "Matrice 8x8:<br>";
     for (let i = 0; i < 8; i++) {
-        console.log(matrix[i].join(' '));
+        matrixText += matrix[i].join(' ') + "<br>";
     }
 
     // Calcola la somma di tutti gli elementi della matrice
@@ -33,7 +35,10 @@
             sum += matrix[i][j];
         }
     }
-    console.log("Somma di tutti gli elementi:", sum);
+
+    // Inserisce i risultati nella pagina HTML
+    document.getElementById("matrixResult").innerHTML = matrixText;
+    document.getElementById("sumResult").innerHTML = "Somma di tutti gli elementi: " + sum;
   </script>
 </body>
 </html>

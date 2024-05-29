@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movimento Segnalino</title>
+    <style>
+        #container {
+            position: relative;
+            width: 400px;
+            height: 400px;
+            border: 1px solid #000;
+        }
+        #segnalino {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: red;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <div id="segnalino"></div>
+    </div>
+
+    <script>
+        const segnalino = document.getElementById('segnalino');
+        const container = document.getElementById('container');
+        const step = 20; // Distanza di ogni movimento in pixel
+        let x = 0, y = 0;
+        let directionIndex = 0;
+        const directions = [
+            { dx: step, dy: step },   // SE
+            { dx: step, dy: -step },  // NE
+            { dx: -step, dy: -step }, // NO
+            { dx: -step, dy: step }   // SO
+        ];
+
+        function move() {
+            x += directions[directionIndex].dx;
+            y += directions[directionIndex].dy;
+
+            // Controlla i limiti del container e cambia direzione se necessario
+            if (x >= container.clientWidth - segnalino.clientWidth || x <= 0) {
+                directionIndex = (directionIndex + 1) % directions.length;
+            }
+            if (y >= container.clientHeight - segnalino.clientHeight || y <= 0) {
+                directionIndex = (directionIndex + 1) % directions.length;
+            }
+
+            segnalino.style.transform = `translate(${x}px, ${y}px)`;
+
+            requestAnimationFrame(move);
+        }
+
+        move();
+    </script>
+</body>
+</html>

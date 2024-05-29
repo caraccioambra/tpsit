@@ -3,59 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Movimento Segnalino</title>
+    <title>Falling Squares</title>
     <style>
         #container {
             position: relative;
-            width: 400px;
-            height: 400px;
+            width: 500px;
+            height: 600px;
             border: 1px solid #000;
+            margin: 20px auto;
         }
-        #segnalino {
+        .square {
             position: absolute;
-            width: 20px;
-            height: 20px;
-            background-color: red;
-            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            background-color: yellow;
         }
     </style>
 </head>
 <body>
-    <div id="container">
-        <div id="segnalino"></div>
-    </div>
+    <div id="container"></div>
 
     <script>
-        const segnalino = document.getElementById('segnalino');
         const container = document.getElementById('container');
-        const step = 20; // Distanza di ogni movimento in pixel
-        let x = 0, y = 0;
-        let directionIndex = 0;
-        const directions = [
-            { dx: step, dy: step },   // SE
-            { dx: step, dy: -step },  // NE
-            { dx: -step, dy: -step }, // NO
-            { dx: -step, dy: step }   // SO
-        ];
+        const squareSize = 50;
+        const numSquares = 8;
+        const fallSpeed = 5;
+        const fallInterval = 1000;
 
-        function move() {
-            x += directions[directionIndex].dx;
-            y += directions[directionIndex].dy;
-
-            // Controlla i limiti del container e cambia direzione se necessario
-            if (x >= container.clientWidth - segnalino.clientWidth || x <= 0) {
-                directionIndex = (directionIndex + 1) % directions.length;
-            }
-            if (y >= container.clientHeight - segnalino.clientHeight || y <= 0) {
-                directionIndex = (directionIndex + 1) % directions.length;
-            }
-
-            segnalino.style.transform = `translate(${x}px, ${y}px)`;
-
-            requestAnimationFrame(move);
+        // Create squares and place them in the container
+        const squares = [];
+        for (let i = 0; i < numSquares; i++) {
+            const square = document.createElement('div');
+            square.className = 'square';
+            square.style.left = `${i * (squareSize + 10)}px`;
+            square.style.top = '0px';
+            container.appendChild(square);
+            squares.push({
+                element: square,
+                hasFallen: false
+            });
         }
 
-        move();
+        function getRandomSquare() {
+            const remainingSquares = squares.filter(square => !square.hasFallen);
+            if (remainingSquares.length === 0) return null;
+            const randomIndex = Math.floor(Math.random() * remainingSquares.length);
+            return remainingSquares[randomIndex];
+        }
+
+        function fall(square) {
+            const fallIntervalId = setInterval(() => {
+                const currentTop = parseInt(square.element.style.top);
+                if (currentTop < container.clientHeight - squareSize) {
+                    square.element.style.top = `${currentTop + fallSpeed}px`;
+                } else {
+                    clearInterval(fallIntervalId);
+                    square.element.style.backgroundColor = 'red';
+                    square.hasFallen = true;
+                }
+            }, 30);
+        }
+
+        function startFalling() {
+            const fallTimer = setInterval(() => {
+                const square = getRandomSquare();
+                if (square) {
+                    fall(square);
+                } else {
+                    clearInterval(fallTimer);
+                }
+            }, fallInterval);
+        }
+
+        startFalling();
     </script>
 </body>
 </html>

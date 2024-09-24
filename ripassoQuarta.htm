@@ -5,86 +5,161 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Generatore di Numeri Casuali</title>
     <style>
+        /* Stile del corpo della pagina */
         body {
             font-family: Arial, sans-serif;
             text-align: center;
             margin: 20px;
+            background-color: #f0f8ff; /* Blu chiaro */
         }
-        #numbers, #even-odd, #prime-result {
-            width: 200px; /* Larghezza del box */
-            height: 200px; /* Altezza del box */
-            border: 2px solid red; /* Bordo rosso */
-            margin: 10px auto; /* Centra i box */
-            padding: 10px; /* Spaziatura interna */
-            box-sizing: border-box; /* Include il bordo e il padding nelle dimensioni */
+        h1 {
+            color: #6a5acd; /* Viola chiaro */
         }
-        #numbers {
+        /* Stile dei box che mostrano i numeri, pari/dispari, risultato primo e differenza */
+        #numeri, #numeri2, #pari-dispari, #pari-dispari2, #risultato-primo, #risultato-primo2, #box-differenza {
+            width: 250px;
+            height: 100px;
+            border: 2px solid #6a5acd; /* Viola chiaro */
+            margin: 10px auto;
+            padding: 10px;
+            box-sizing: border-box;
+            background-color: #e6e6fa; /* Sfondo viola chiaro */
+        }
+        /* Stile per i numeri casuali (testo più grande e in grassetto) */
+        #numeri, #numeri2 {
             font-size: 24px;
             font-weight: bold;
         }
-        #even-odd, #prime-result {
+        /* Stile per i testi del risultato di pari/dispari e numero primo */
+        #pari-dispari, #pari-dispari2, #risultato-primo, #risultato-primo2, #box-differenza {
             font-size: 20px;
         }
-        #generate-button, #check-prime-button {
+        /* Stile per i pulsanti */
+        #pulsante-genera, #pulsante-controlla-primo {
             padding: 10px 20px;
             font-size: 16px;
             cursor: pointer;
-            margin: 5px; /* Aggiunto margine per separare i bottoni */
+            margin: 5px;
+            background-color: #6a5acd;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        /* Stile per il box della differenza tra i numeri */
+        #box-differenza {
+            background-color: #d3d3d3; /* Grigio per il box della differenza */
+            color: #000;
         }
     </style>
 </head>
 <body>
     <h1>Generatore di Numeri Casuali</h1>
-    <button id="generate-button">Genera Numero Casuale</button>
-    <button id="check-prime-button">Controlla se è Primo</button>
-    <div id="numbers"></div>
-    <div id="even-odd"></div>
-    <div id="prime-result"></div> <!-- Div per visualizzare il risultato sul numero primo -->
+    <!-- Pulsanti per generare i numeri e controllare se sono primi -->
+    <button id="pulsante-genera">Genera Numeri Casuali</button>
+    <button id="pulsante-controlla-primo">Controlla se sono Primi</button>
+
+    <!-- Box per il primo numero, pari/dispari e risultato primo -->
+    <div id="numeri"></div>
+    <div id="pari-dispari"></div>
+    <div id="risultato-primo"></div>
+
+    <!-- Box per il secondo numero, pari/dispari e risultato primo -->
+    <div id="numeri2"></div>
+    <div id="pari-dispari2"></div>
+    <div id="risultato-primo2"></div>
+
+    <!-- Box per visualizzare la differenza tra i due numeri casuali -->
+    <div id="box-differenza"></div>
 
     <script>
-        let lastRandomNumber; // Variabile per memorizzare l'ultimo numero casuale generato
+        // Variabili per memorizzare il primo e il secondo numero casuale
+        let primoNumeroCasuale;
+        let secondoNumeroCasuale;
 
-        function getRandomNumber() {
-            return Math.floor(Math.random() * 100) + 1;
+        // Funzione per generare un numero casuale tra 1 e 100
+        function generaNumeroCasuale() {
+            return Math.floor(Math.random() * 100) + 1; // Genera un numero casuale e lo ritorna
         }
 
-        function updateNumbers() {
-            const numbersDiv = document.getElementById('numbers');
-            const evenOddDiv = document.getElementById('even-odd');
-            lastRandomNumber = getRandomNumber(); // Memorizza il numero generato
-            numbersDiv.textContent = `Numero Casuale: ${lastRandomNumber}`;
+        // Funzione per aggiornare i numeri casuali e visualizzarli
+        function aggiornaNumeri() {
+            // Seleziona i div per visualizzare i numeri e il risultato pari/dispari
+            const divNumeri = document.getElementById('numeri');
+            const divPariDispari = document.getElementById('pari-dispari');
+            // Genera e memorizza il primo numero casuale
+            primoNumeroCasuale = generaNumeroCasuale();
+            // Visualizza il primo numero casuale
+            divNumeri.textContent = `Primo Numero: ${primoNumeroCasuale}`;
 
-            if (lastRandomNumber % 2 === 0) {
-                evenOddDiv.textContent = 'Il numero è pari.';
+            // Verifica se il primo numero è pari o dispari e lo visualizza
+            if (primoNumeroCasuale % 2 === 0) {
+                divPariDispari.textContent = 'Il primo numero è pari.';
             } else {
-                evenOddDiv.textContent = 'Il numero è dispari.';
+                divPariDispari.textContent = 'Il primo numero è dispari.';
             }
-        }
 
-        function isPrime(num) {
-            if (num <= 1) return false; // 0 e 1 non sono primi
-            for (let i = 2; i <= Math.sqrt(num); i++) {
-                if (num % i === 0) return false; // Se divisibile, non è primo
-            }
-            return true; // Se non è divisibile, è primo
-        }
+            // Seleziona i div per visualizzare il secondo numero e il risultato pari/dispari
+            const divNumeri2 = document.getElementById('numeri2');
+            const divPariDispari2 = document.getElementById('pari-dispari2');
+            // Genera e memorizza il secondo numero casuale
+            secondoNumeroCasuale = generaNumeroCasuale();
+            // Visualizza il secondo numero casuale
+            divNumeri2.textContent = `Secondo Numero: ${secondoNumeroCasuale}`;
 
-        function checkPrime() {
-            const primeResultDiv = document.getElementById('prime-result');
-            if (lastRandomNumber === undefined) {
-                primeResultDiv.textContent = 'Genera un numero casuale prima di controllare.';
+            // Verifica se il secondo numero è pari o dispari e lo visualizza
+            if (secondoNumeroCasuale % 2 === 0) {
+                divPariDispari2.textContent = 'Il secondo numero è pari.';
             } else {
-                if (isPrime(lastRandomNumber)) {
-                    primeResultDiv.textContent = `${lastRandomNumber} è un numero primo.`;
+                divPariDispari2.textContent = 'Il secondo numero è dispari.';
+            }
+
+            // Calcola la differenza assoluta tra i due numeri casuali
+            const divDifferenza = document.getElementById('box-differenza');
+            const differenza = Math.abs(primoNumeroCasuale - secondoNumeroCasuale);
+            // Visualizza la differenza tra i due numeri
+            divDifferenza.textContent = `Differenza tra i numeri: ${differenza}`;
+        }
+
+        // Funzione per verificare se un numero è primo
+        function èPrimo(numero) {
+            if (numero <= 1) return false; // 0 e 1 non sono primi
+            for (let i = 2; i <= Math.sqrt(numero); i++) {
+                if (numero % i === 0) return false; // Se il numero è divisibile, non è primo
+            }
+            return true; // Se non divisibile, il numero è primo
+        }
+
+        // Funzione per controllare se i due numeri casuali sono numeri primi
+        function controllaPrimi() {
+            // Seleziona i div per visualizzare i risultati della verifica dei numeri primi
+            const divRisultatoPrimo = document.getElementById('risultato-primo');
+            const divRisultatoPrimo2 = document.getElementById('risultato-primo2');
+
+            // Verifica che i numeri siano stati generati
+            if (primoNumeroCasuale === undefined || secondoNumeroCasuale === undefined) {
+                divRisultatoPrimo.textContent = 'Genera i numeri casuali prima di controllare.';
+                divRisultatoPrimo2.textContent = '';
+            } else {
+                // Verifica se il primo numero è primo e aggiorna il risultato
+                if (èPrimo(primoNumeroCasuale)) {
+                    divRisultatoPrimo.textContent = `${primoNumeroCasuale} è un numero primo.`;
                 } else {
-                    primeResultDiv.textContent = `${lastRandomNumber} non è un numero primo.`;
+                    divRisultatoPrimo.textContent = `${primoNumeroCasuale} non è un numero primo.`;
+                }
+
+                // Verifica se il secondo numero è primo e aggiorna il risultato
+                if (èPrimo(secondoNumeroCasuale)) {
+                    divRisultatoPrimo2.textContent = `${secondoNumeroCasuale} è un numero primo.`;
+                } else {
+                    divRisultatoPrimo2.textContent = `${secondoNumeroCasuale} non è un numero primo.`;
                 }
             }
         }
 
-        document.getElementById('generate-button').addEventListener('click', updateNumbers);
-        document.getElementById('check-prime-button').addEventListener('click', checkPrime);
+        // Aggiunge l'evento di click al pulsante "Genera Numeri Casuali"
+        document.getElementById('pulsante-genera').addEventListener('click', aggiornaNumeri);
+        // Aggiunge l'evento di click al pulsante "Controlla se sono Primi"
+        document.getElementById('pulsante-controlla-primo').addEventListener('click', controllaPrimi);
     </script>
 </body>
 </html>
-

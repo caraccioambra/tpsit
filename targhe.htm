@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="it" ng-app="appTarghe">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verificatore di Targhe con Angular</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+        }
+        .wrapper {
+            max-width: 900px;
+            margin: 20px auto;
+            text-align: center;
+            padding: 20px;
+            border-radius: 8px;
+            background-color: #ffffff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 25px;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .valid {
+            background-color: #4dcd51; /* Verde chiaro */
+        }
+
+        .invalid {
+            background-color: #ea5564; /* Rosso chiaro */
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script>
+        var app = angular.module('appTarghe', []);
+        app.controller('TargaCtrl', ['$scope', function($scope) {
+            $scope.targhe = [];
+            $scope.nuovaTarga = '';
+
+            $scope.aggiungiTarga = function() {
+                if ($scope.nuovaTarga) {
+                    var statoValida = controllaTarga($scope.nuovaTarga);
+                    $scope.targhe.push({ targa: $scope.nuovaTarga, valida: statoValida });
+                    $scope.nuovaTarga = ''; // Reset dell'input
+                }
+            };
+
+            function controllaTarga(targa) {
+                var regexNormale = /^[A-Z]{2}[0-9]{3}[A-Z]{2}$/; // AB123CD
+                var regexAntica = /^[A-Z]{1}[0-9]{3}[A-Z]{2}$/; // A123BC
+                var regexTemp = /^[A-Z]{2}[0-9]{4}[A-Z]{1}$/; // AB1234C
+                var combinazioniInvalide = /CI|MI|TI|CO|MO|TO|QU|QO/;
+
+                return (regexNormale.test(targa) || regexAntica.test(targa) || regexTemp.test(targa)) && !combinazioniInvalide.test(targa);
+            }
+        }]);
+    </script>
+</head>
+<body ng-controller="TargaCtrl">
+    <div class="wrapper">
+        <h1>Controllo Targa Italiana</h1>
+        <input type="text" ng-model="nuovaTarga" placeholder="Inserisci la targa" />
+        <button ng-click="aggiungiTarga()">Aggiungi Targa</button>
+
+        <h2>Targhe Inserite</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Targa</th>
+                    <th>Esito</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="t in targhe" ng-class="{'valid': t.valida, 'invalid': !t.valida}">
+                    <td>{{t.targa}}</td>
+                    <td>{{t.valida ? 'Valida' : 'Non Valida'}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html ng-app="appTabelline">
+<head>
+    <title>Matrice delle Tabelline</title>
+    <style>
+        /* Stile per i numeri pari (sfondo blu) */
+        .pari {
+            background-color: rgb(8, 108, 122);
+            color: white;
+            padding: 5px;
+            text-align: center;
+        }
+        
+        /* Stile per i numeri dispari (sfondo rosso) */
+        .dispari {
+            background-color: rgb(105, 20, 105);
+            color: white;
+            padding: 5px;
+            text-align: center;
+        }
+
+        /* Stile per le celle della tabella */
+        td {
+            width: 50px;
+            height: 50px;
+        }
+    </style>
+</head>
+<body ng-controller="TabellineController">
+
+    <h1>Matrice delle Tabelline (1-10)</h1>
+    <table border="1">
+        <tr ng-repeat="riga in matrice">
+            <td ng-repeat="numero in riga" ng-class="{'pari': numero % 2 === 0, 'dispari': numero % 2 !== 0}">
+                {{ numero }}
+            </td>
+        </tr>
+    </table>
+
+    <!-- Includi il file AngularJS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    
+    <script>
+        // Definizione dell'app AngularJS
+        var app = angular.module('appTabelline', []);
+
+        // Definizione del Controller
+        app.controller('TabellineController', function($scope) {
+
+            // Inizializzazione della matrice delle tabelline
+            $scope.matrice = [];
+
+            // Ciclo per costruire la matrice delle tabelline da 1 a 10
+            for (var i = 1; i <= 10; i++) {
+                // Array temporaneo per ogni riga della tabella
+                var riga = [];
+                for (var j = 1; j <= 10; j++) {
+                    // Aggiungi il prodotto alla riga corrente
+                    riga.push(i * j);
+                }
+                // Aggiungi la riga alla matrice
+                $scope.matrice.push(riga);
+            }
+        });
+    </script>
+</body>
+</html>

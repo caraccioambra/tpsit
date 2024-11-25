@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"> <!-- Specifica il set di caratteri del documento -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Rende il layout adattabile ai dispositivi mobili -->
+    <title>Confronto Statistiche Array</title> <!-- Titolo della pagina visualizzato nella scheda del browser -->
+    <style>
+        /* Stile generale della pagina */
+        body {
+            font-family: Arial, sans-serif; /* Imposta il font principale */
+            margin: 20px; /* Aggiunge un margine intorno alla pagina */
+        }
+        .container {
+            max-width: 800px; /* Limita la larghezza massima del contenitore */
+            margin: 0 auto; /* Centra il contenitore orizzontalmente */
+        }
+        h1, h2 {
+            text-align: center; /* Allinea i titoli al centro */
+        }
+        button {
+            padding: 10px 20px; /* Spaziatura interna del pulsante */
+            margin-top: 20px; /* Margine superiore */
+            background-color: #007BFF; /* Colore di sfondo del pulsante */
+            color: white; /* Colore del testo */
+            border: none; /* Rimuove il bordo */
+            border-radius: 5px; /* Arrotonda gli angoli */
+            cursor: pointer; /* Cambia il cursore in una mano quando si passa sopra */
+        }
+        button:hover {
+            background-color: #0056b3; /* Cambia il colore di sfondo al passaggio del mouse */
+        }
+        .results {
+            margin-top: 20px; /* Margine superiore */
+            padding: 10px; /* Spaziatura interna */
+            border: 1px solid #ccc; /* Aggiunge un bordo grigio chiaro */
+            border-radius: 5px; /* Arrotonda gli angoli */
+            background-color: #f9f9f9; /* Colore di sfondo */
+        }
+        .array-results {
+            display: flex; /* Usa il layout a griglia flessibile */
+            justify-content: space-around; /* Distribuisce lo spazio in modo uniforme */
+        }
+        .array-results > div {
+            flex: 1; /* Ogni colonna occupa una parte uguale */
+            margin: 0 10px; /* Spaziatura orizzontale tra le colonne */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Confronto Statistiche di Due Array</h1>
+        <p>L'array A è: <strong>[3, 4, 2, 5, 1, 6, 4, 2, 7]</strong></p> <!-- Mostra i dati del primo array -->
+        <p>L'array B è: <strong>[5, 7, 3, 3, 6, 8, 4, 4, 2]</strong></p> <!-- Mostra i dati del secondo array -->
+        <button onclick="compareArrays()">Confronta Statistiche</button> <!-- Pulisce i dati quando viene cliccato -->
+        <div class="results" id="results"></div> <!-- Contenitore per mostrare i risultati -->
+    </div>
+
+    <script>
+        // Classe per calcolare statistiche
+        class Statistics {
+            static mean(array) {
+                // Calcola la media
+                if (!array.length) return null; // Ritorna null se l'array è vuoto
+                const sum = array.reduce((acc, num) => acc + num, 0); // Somma tutti gli elementi
+                return sum / array.length; // Divide per il numero di elementi
+            }
+
+            static variance(array) {
+                // Calcola la varianza
+                if (!array.length) return null; // Controlla se l'array è vuoto
+                const mean = this.mean(array); // Usa il metodo per calcolare la media
+                const squaredDiffs = array.map(num => Math.pow(num - mean, 2)); // Calcola la differenza quadratica
+                return this.mean(squaredDiffs); // Ritorna la media delle differenze quadratiche
+            }
+
+            static standardDeviation(array) {
+                // Calcola la deviazione standard
+                const variance = this.variance(array); // Usa il metodo per calcolare la varianza
+                return variance !== null ? Math.sqrt(variance) : null; // Calcola la radice quadrata della varianza
+            }
+
+            static median(array) {
+                // Calcola la mediana
+                if (!array.length) return null; // Verifica che l'array non sia vuoto
+                const sorted = [...array].sort((a, b) => a - b); // Ordina gli elementi in ordine crescente
+                const mid = Math.floor(sorted.length / 2); // Trova l'indice centrale
+                return sorted.length % 2 === 0
+                    ? (sorted[mid - 1] + sorted[mid]) / 2 // Calcola la media dei due centrali
+                    : sorted[mid]; // Ritorna l'elemento centrale
+            }
+
+            static mode(array) {
+                // Calcola la moda
+                if (!array.length) return null; // Verifica che l'array non sia vuoto
+                const frequencyMap = {}; // Mappa per contare le frequenze
+                array.forEach(num => {
+                    frequencyMap[num] = (frequencyMap[num] || 0) + 1; // Conta le occorrenze
+                });
+
+                const maxFrequency = Math.max(...Object.values(frequencyMap)); // Trova la frequenza massima
+                const modes = Object.keys(frequencyMap)
+                    .filter(key => frequencyMap[key] === maxFrequency) // Trova gli elementi con frequenza massima
+                    .map(Number); // Converti le chiavi in numeri
+
+                return modes.length === 1 ? modes[0] : modes; // Ritorna la moda o un array di modali
+            }
+        }
+
+        function compareArrays() {
+            const arrayA = [3, 4, 2, 5, 1, 6, 4, 2, 7]; // Primo array
+            const arrayB = [5, 7, 3, 3, 6, 8, 4, 4, 2]; // Secondo array
+
+            const statsA = calculateStatistics(arrayA); // Calcola le statistiche per l'array A
+            const statsB = calculateStatistics(arrayB); // Calcola le statistiche per l'array B
+
+            // Mostra i risultati nel contenitore HTML
+            document.getElementById("results").innerHTML = `
+                <h3>Confronto Statistiche</h3>
+                <div class="array-results">
+                    <div>
+                        <h4>Array A</h4>
+                        ${renderStats(statsA)} <!-- Mostra le statistiche di A -->
+                    </div>
+                    <div>
+                        <h4>Array B</h4>
+                        ${renderStats(statsB)} <!-- Mostra le statistiche di B -->
+                    </div>
+                </div>
+            `;
+        }
+
+        function calculateStatistics(array) {
+            // Calcola tutte le statistiche per un array dato
+            return {
+                mean: Statistics.mean(array).toFixed(2), // Media arrotondata a due decimali
+                variance: Statistics.variance(array).toFixed(2), // Varianza arrotondata
+                stdDev: Statistics.standardDeviation(array).toFixed(2), // Deviazione standard arrotondata
+                median: Statistics.median(array), // Mediana
+                mode: Statistics.mode(array), // Moda
+            };
+        }
+
+        function renderStats(stats) {
+            // Genera il markup HTML per visualizzare le statistiche
+            return `
+                <p><strong>Media:</strong> ${stats.mean}</p>
+                <p><strong>Varianza:</strong> ${stats.variance}</p>
+                <p><strong>Deviazione Standard:</strong> ${stats.stdDev}</p>
+                <p><strong>Mediana:</strong> ${stats.median}</p>
+                <p><strong>Moda:</strong> ${Array.isArray(stats.mode) ? stats.mode.join(", ") : stats.mode}</p>
+            `;
+        }
+    </script>
+</body>
+</html>

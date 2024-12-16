@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Estrazioni</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f4f4f9;
+      color: #333;
+      margin: 20px;
+      padding: 20px;
+      line-height: 1.6;
+    }
+
+    h1 {
+      color: #6a0dad;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    div {
+      margin-bottom: 15px;
+    }
+
+    button {
+      padding: 10px 20px;
+      margin: 5px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      background-color: #8a2be2;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    button:hover {
+      background-color: #9d4df0;
+      transform: scale(1.05);
+    }
+
+    button.active {
+      background-color: #6a0dad;
+    }
+
+    select {
+      padding: 8px;
+      font-size: 16px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    input[type="number"] {
+      padding: 8px;
+      font-size: 16px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      width: 60px;
+    }
+
+    #estrazioni {
+      margin-top: 20px;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      background-color: #fff;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+
+    #result {
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 5px;
+      background-color: #e6dbf5;
+      color: #4b0082;
+      font-weight: bold;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Simulazione Estrazioni</h1>
+  
+  <div>
+    <button id="pariButton">Pari</button>
+    <button id="dispariButton">Dispari</button>
+    <select id="decinaSelect">
+      <option value="0">1-10</option>
+      <option value="1">11-20</option>
+      <option value="2">21-30</option>
+      <option value="3">31-40</option>
+      <option value="4">41-50</option>
+      <option value="5">51-60</option>
+      <option value="6">61-70</option>
+      <option value="7">71-80</option>
+      <option value="8">81-90</option>
+    </select>
+    <label for="puntataFissa">Puntata fissa:</label>
+    <input type="number" id="puntataFissa" value="20" min="1" max="90">
+  </div>
+
+  <button id="startButton">Inizia Simulazione</button>
+  
+  <div id="estrazioni"></div>
+  
+  <div id="result"></div>
+
+  <script>
+    let pari = false;
+    let dispari = false;
+    let decina = 0;
+    let puntataFissa = 20;
+    let estrazioni = [];
+    let numVincite = 0;
+    let numEstratti = 0;
+
+    // Funzione per generare un numero casuale tra 1 e 90
+    function estrazioneCasuale() {
+      return Math.floor(Math.random() * 90) + 1;
+    }
+
+    // Funzione per verificare se il numero estratto soddisfa le condizioni
+    function verificaVincita(numero) {
+      if (pari && numero % 2 === 0) return true;
+      if (dispari && numero % 2 !== 0) return true;
+      if (Math.floor((numero - 1) / 10) === decina) return true;
+      if (numero === puntataFissa) return true;
+      return false;
+    }
+
+    // Funzione per iniziare la simulazione
+    function iniziaSimulazione() {
+      estrazioni = [];
+      numVincite = 0;
+      numEstratti = 0;
+      document.getElementById('estrazioni').innerHTML = '';
+      document.getElementById('result').textContent = '';
+
+      let intervalId = setInterval(function () {
+        const numero = estrazioneCasuale();
+        estrazioni.push(numero);
+        numEstratti++;
+        const div = document.createElement('div');
+        div.textContent = `Estrazione ${numEstratti}: ${numero}`;
+        document.getElementById('estrazioni').appendChild(div);
+
+        if (verificaVincita(numero)) {
+          numVincite++;
+        }
+
+        if (numVincite >= 10) {
+          clearInterval(intervalId);
+          document.getElementById('result').textContent = `Hai ottenuto 10 vincite in ${numEstratti} estrazioni.`;
+        }
+      }, 2000);
+    }
+
+    // Funzione per attivare e disattivare i bottoni toggle
+    function toggleButton(buttonId) {
+      const button = document.getElementById(buttonId);
+      button.classList.toggle('active');
+      if (buttonId === 'pariButton') {
+        pari = !pari;
+      } else if (buttonId === 'dispariButton') {
+        dispari = !dispari;
+      }
+    }
+
+    // Event listeners per i bottoni
+    document.getElementById('pariButton').addEventListener('click', function () {
+      toggleButton('pariButton');
+    });
+
+    document.getElementById('dispariButton').addEventListener('click', function () {
+      toggleButton('dispariButton');
+    });
+
+    document.getElementById('decinaSelect').addEventListener('change', function () {
+      decina = parseInt(this.value);
+    });
+
+    document.getElementById('puntataFissa').addEventListener('input', function () {
+      puntataFissa = parseInt(this.value);
+    });
+
+    document.getElementById('startButton').addEventListener('click', function () {
+      iniziaSimulazione();
+    });
+  </script>
+
+</body>
+</html>

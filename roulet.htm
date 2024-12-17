@@ -123,8 +123,6 @@
   <button id="startButton">Inizia Simulazione</button>
   <!-- Bottone per salvare le estrazioni in CSV -->
   <button id="salvaCsvButton">Salva Estrazioni in CSV</button>
-  <!-- Bottone per caricare un CSV e convertirlo in JSON -->
-  <button id="caricaCsvButton">Carica CSV e Converti in JSON</button>
   
   <!-- Contenitore per visualizzare le estrazioni -->
   <div id="estrazioni"></div>
@@ -225,42 +223,6 @@
       }
     }
 
-    // Funzione per caricare un file CSV e convertirlo in JSON
-    function caricaCSV() {
-      const input = document.createElement('input');
-      input.type = 'file';
-      input.accept = '.csv'; // Consente solo i file CSV
-      input.addEventListener('change', function (event) {
-        const file = event.target.files[0];
-        if (file) {
-          const reader = new FileReader();
-          reader.onload = function(e) {
-            const csv = e.target.result;
-            const json = csvToJson(csv); // Converte il CSV in JSON
-            console.log("Dati CSV convertiti in JSON:", json);
-          };
-          reader.readAsText(file); // Legge il contenuto del file come testo
-        }
-      });
-      input.click(); // Apre la finestra di selezione file
-    }
-
-    // Funzione per convertire un CSV in un oggetto JSON
-    function csvToJson(csv) {
-      const lines = csv.split("\n"); // Dividi il CSV in righe
-      const result = [];
-      const headers = lines[0].split(","); // Intestazione del CSV
-      for (let i = 1; i < lines.length; i++) {
-        const obj = {};
-        const currentLine = lines[i].split(","); // Dividi ogni riga in colonne
-        for (let j = 0; j < headers.length; j++) {
-          obj[headers[j]] = currentLine[j]; // Associa ogni colonna al suo header
-        }
-        result.push(obj); // Aggiungi l'oggetto JSON all'array dei risultati
-      }
-      return result;
-    }
-
     // Event listeners per gestire i click sui bottoni
     document.getElementById('pariButton').addEventListener('click', function () {
       toggleButton('pariButton');
@@ -284,10 +246,6 @@
 
     document.getElementById('salvaCsvButton').addEventListener('click', function () {
       salvaInCSV(); // Salva le estrazioni in un file CSV
-    });
-
-    document.getElementById('caricaCsvButton').addEventListener('click', function () {
-      caricaCSV(); // Avvia la funzione per caricare un file CSV
     });
   </script>
 

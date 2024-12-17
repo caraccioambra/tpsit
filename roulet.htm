@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Estrazioni</title>
   <style>
+    /* Stili di base per il corpo della pagina */
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background-color: #f4f4f9;
@@ -14,16 +15,19 @@
       line-height: 1.6;
     }
 
+    /* Stili per il titolo principale */
     h1 {
       color: #6a0dad;
       text-align: center;
       margin-bottom: 20px;
     }
 
+    /* Stili per i div che contengono i bottoni */
     div {
       margin-bottom: 15px;
     }
 
+    /* Stili per i bottoni */
     button {
       padding: 10px 20px;
       margin: 5px;
@@ -36,15 +40,18 @@
       transition: background-color 0.3s ease, transform 0.2s ease;
     }
 
+    /* Hover per i bottoni (effetto di ingrandimento e cambio colore) */
     button:hover {
       background-color: #9d4df0;
       transform: scale(1.05);
     }
 
+    /* Bottoni attivi con classe "active" */
     button.active {
       background-color: #6a0dad;
     }
 
+    /* Stili per il menu a tendina */
     select {
       padding: 8px;
       font-size: 16px;
@@ -52,6 +59,7 @@
       border: 1px solid #ccc;
     }
 
+    /* Stili per l'input numerico */
     input[type="number"] {
       padding: 8px;
       font-size: 16px;
@@ -60,6 +68,7 @@
       width: 60px;
     }
 
+    /* Stili per il contenitore delle estrazioni */
     #estrazioni {
       margin-top: 20px;
       padding: 10px;
@@ -70,6 +79,7 @@
       overflow-y: auto;
     }
 
+    /* Stili per il risultato finale */
     #result {
       margin-top: 20px;
       padding: 15px;
@@ -83,11 +93,16 @@
 </head>
 <body>
 
+  <!-- Titolo della pagina -->
   <h1>Simulazione Estrazioni</h1>
   
+  <!-- Contenitore per i bottoni e opzioni -->
   <div>
+    <!-- Bottone per selezionare Pari -->
     <button id="pariButton">Pari</button>
+    <!-- Bottone per selezionare Dispari -->
     <button id="dispariButton">Dispari</button>
+    <!-- Menu a tendina per selezionare la decina -->
     <select id="decinaSelect">
       <option value="0">1-10</option>
       <option value="1">11-20</option>
@@ -99,17 +114,26 @@
       <option value="7">71-80</option>
       <option value="8">81-90</option>
     </select>
+    <!-- Input numerico per la puntata fissa -->
     <label for="puntataFissa">Puntata fissa:</label>
     <input type="number" id="puntataFissa" value="20" min="1" max="90">
   </div>
 
+  <!-- Bottone per iniziare la simulazione -->
   <button id="startButton">Inizia Simulazione</button>
+  <!-- Bottone per salvare le estrazioni in CSV -->
+  <button id="salvaCsvButton">Salva Estrazioni in CSV</button>
+  <!-- Bottone per caricare un CSV e convertirlo in JSON -->
+  <button id="caricaCsvButton">Carica CSV e Converti in JSON</button>
   
+  <!-- Contenitore per visualizzare le estrazioni -->
   <div id="estrazioni"></div>
   
+  <!-- Sezione per visualizzare il risultato finale -->
   <div id="result"></div>
 
   <script>
+    // Variabili per salvare lo stato delle selezioni
     let pari = false;
     let dispari = false;
     let decina = 0;
@@ -123,35 +147,45 @@
       return Math.floor(Math.random() * 90) + 1;
     }
 
-    // Funzione per verificare se il numero estratto soddisfa le condizioni
+    // Funzione per verificare se un numero soddisfa le condizioni di vincita
     function verificaVincita(numero) {
+      // Se è selezionato "Pari" e il numero è pari, è vincente
       if (pari && numero % 2 === 0) return true;
+      // Se è selezionato "Dispari" e il numero è dispari, è vincente
       if (dispari && numero % 2 !== 0) return true;
+      // Se il numero appartiene alla decina selezionata, è vincente
       if (Math.floor((numero - 1) / 10) === decina) return true;
+      // Se il numero è uguale alla puntata fissa, è vincente
       if (numero === puntataFissa) return true;
       return false;
     }
 
-    // Funzione per iniziare la simulazione
+    // Funzione per iniziare la simulazione delle estrazioni
     function iniziaSimulazione() {
+      // Reset delle variabili
       estrazioni = [];
       numVincite = 0;
       numEstratti = 0;
       document.getElementById('estrazioni').innerHTML = '';
       document.getElementById('result').textContent = '';
 
+      // Inizia un ciclo di estrazione ogni 2 secondi
       let intervalId = setInterval(function () {
+        // Genera un numero casuale
         const numero = estrazioneCasuale();
-        estrazioni.push(numero);
+        estrazioni.push(numero); // Aggiunge l'estrazione all'array
         numEstratti++;
+        // Mostra il numero estratto nella lista
         const div = document.createElement('div');
         div.textContent = `Estrazione ${numEstratti}: ${numero}`;
         document.getElementById('estrazioni').appendChild(div);
 
+        // Verifica se il numero estratto è una vincita
         if (verificaVincita(numero)) {
           numVincite++;
         }
 
+        // Se raggiungi 10 vincite, ferma la simulazione
         if (numVincite >= 10) {
           clearInterval(intervalId);
           document.getElementById('result').textContent = `Hai ottenuto 10 vincite in ${numEstratti} estrazioni.`;
@@ -159,18 +193,75 @@
       }, 2000);
     }
 
-    // Funzione per attivare e disattivare i bottoni toggle
+    // Funzione per attivare e disattivare i bottoni "Pari" e "Dispari"
     function toggleButton(buttonId) {
       const button = document.getElementById(buttonId);
-      button.classList.toggle('active');
+      button.classList.toggle('active'); // Cambia lo stato del bottone
       if (buttonId === 'pariButton') {
-        pari = !pari;
+        pari = !pari; // Inverte lo stato di "Pari"
       } else if (buttonId === 'dispariButton') {
-        dispari = !dispari;
+        dispari = !dispari; // Inverte lo stato di "Dispari"
       }
     }
 
-    // Event listeners per i bottoni
+    // Funzione per salvare le estrazioni in un file CSV
+    function salvaInCSV() {
+      // Crea un array di stringhe che rappresentano ogni estrazione
+      const estrazioniCsv = estrazioni.map((num, index) => `Estrazione ${index + 1},${num}`).join("\n");
+      // Aggiungi l'intestazione del CSV
+      const csvContent = `Numero Estrazione,Numero\n${estrazioniCsv}`;
+      // Crea un Blob con il contenuto CSV
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      // Crea un link per scaricare il file CSV
+      const link = document.createElement("a");
+      if (link.download !== undefined) {
+        const url = URL.createObjectURL(blob);
+        link.setAttribute("href", url);
+        link.setAttribute("download", "estrazioni.csv"); // Imposta il nome del file
+        link.style.visibility = 'hidden';
+        document.body.appendChild(link);
+        link.click(); // Avvia il download
+        document.body.removeChild(link);
+      }
+    }
+
+    // Funzione per caricare un file CSV e convertirlo in JSON
+    function caricaCSV() {
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = '.csv'; // Consente solo i file CSV
+      input.addEventListener('change', function (event) {
+        const file = event.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = function(e) {
+            const csv = e.target.result;
+            const json = csvToJson(csv); // Converte il CSV in JSON
+            console.log("Dati CSV convertiti in JSON:", json);
+          };
+          reader.readAsText(file); // Legge il contenuto del file come testo
+        }
+      });
+      input.click(); // Apre la finestra di selezione file
+    }
+
+    // Funzione per convertire un CSV in un oggetto JSON
+    function csvToJson(csv) {
+      const lines = csv.split("\n"); // Dividi il CSV in righe
+      const result = [];
+      const headers = lines[0].split(","); // Intestazione del CSV
+      for (let i = 1; i < lines.length; i++) {
+        const obj = {};
+        const currentLine = lines[i].split(","); // Dividi ogni riga in colonne
+        for (let j = 0; j < headers.length; j++) {
+          obj[headers[j]] = currentLine[j]; // Associa ogni colonna al suo header
+        }
+        result.push(obj); // Aggiungi l'oggetto JSON all'array dei risultati
+      }
+      return result;
+    }
+
+    // Event listeners per gestire i click sui bottoni
     document.getElementById('pariButton').addEventListener('click', function () {
       toggleButton('pariButton');
     });
@@ -180,15 +271,23 @@
     });
 
     document.getElementById('decinaSelect').addEventListener('change', function () {
-      decina = parseInt(this.value);
+      decina = parseInt(this.value); // Aggiorna la decina selezionata
     });
 
     document.getElementById('puntataFissa').addEventListener('input', function () {
-      puntataFissa = parseInt(this.value);
+      puntataFissa = parseInt(this.value); // Aggiorna la puntata fissa
     });
 
     document.getElementById('startButton').addEventListener('click', function () {
-      iniziaSimulazione();
+      iniziaSimulazione(); // Avvia la simulazione delle estrazioni
+    });
+
+    document.getElementById('salvaCsvButton').addEventListener('click', function () {
+      salvaInCSV(); // Salva le estrazioni in un file CSV
+    });
+
+    document.getElementById('caricaCsvButton').addEventListener('click', function () {
+      caricaCSV(); // Avvia la funzione per caricare un file CSV
     });
   </script>
 

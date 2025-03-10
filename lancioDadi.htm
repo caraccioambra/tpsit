@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="it-IT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Gioco del lancio di due dadi">
+    <meta name="keywords" content="dadi, gioco, javascript, istogramma">
+    <meta name="author" content="Caraccio Ambra">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lancio di Due Dadi</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            background-image: url('https://static.vecteezy.com/ti/foto-gratuito/p1/2398378-dadi-su-sfondo-rosso-gratuito-foto.jpg');
+            background-size: cover;
+            background-position: center center;
+            background-repeat: no-repeat;
+        }
+        
+        h2 {
+            background-color: #cccccc;
+            padding: 10px;
+            display: inline-block;
+        }
+        .dadi-container {
+            display: flex;
+            justify-content: center;
+            margin: 20px;
+        }
+        .dado {
+            width: 100px;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            font-weight: bold;
+            background-color: rgb(255, 255, 255);
+            border: 2px solid black;
+            margin: 10px;
+            border-radius: 10px;
+            box-shadow: 5px 5px 10px rgb(0, 0, 0);
+        }
+        .rotazione {
+            animation: rotateDice 0.6s ease-in-out;
+        }
+        @keyframes rotateDice {
+            0% { transform: rotate(0deg); }
+            50% { transform: rotate(180deg); }
+            100% { transform: rotate(360deg); }
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 18px;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+        canvas {
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Lancio di Due Dadi</h2>
+
+    <div class="dadi-container">
+        <div id="dado1" class="dado">🎲</div>
+        <div id="dado2" class="dado">🎲</div>
+    </div>
+
+    <button onclick="lanciaDadi()">Lancia i dadi</button>
+
+    <canvas id="istogramma" width="800" height="350"></canvas>
+
+    <script>
+        let risultati = Array(13).fill(0); 
+
+        function lanciaDadi() {
+            let dado1 = document.getElementById('dado1');
+            let dado2 = document.getElementById('dado2');
+
+            dado1.classList.add("rotazione");
+            dado2.classList.add("rotazione");
+
+            setTimeout(() => {
+                for (let i = 0; i < 100; i++) {
+                    let valore1 = Math.floor(Math.random() * 6) + 1;
+                    let valore2 = Math.floor(Math.random() * 6) + 1;
+                    let somma = valore1 + valore2;
+                    risultati[somma]++;
+                }
+                disegnaIstogramma();
+                
+                dado1.classList.remove("rotazione");
+                dado2.classList.remove("rotazione");
+            }, 600);
+        }
+
+        function disegnaIstogramma() {
+            let canvas = document.getElementById('istogramma');
+            let ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            let maxVal = Math.max(...risultati);
+            let larghezza = 40, spazio = 20, baseX = 40, baseY = 300;
+            let maxHeight = 200;
+
+            ctx.fillStyle = "#000";
+            ctx.font = "16px Arial";
+            ctx.fillText("Distribuzione delle somme", 200, 20);
+
+            for (let i = 2; i <= 12; i++) {
+                let altezza = (risultati[i] / maxVal) * maxHeight;
+                let x = baseX + (i - 2) * (larghezza + spazio);
+                let y = baseY - altezza;
+
+                ctx.fillStyle = "rgb(79, 0, 0)"; 
+                ctx.fillRect(x, y, larghezza, altezza);
+
+                ctx.fillStyle = "#000";
+                ctx.fillText(i, x + larghezza / 2 - 5, baseY + 20);
+            }
+        }
+    </script>
+
+</body>
+</html>
